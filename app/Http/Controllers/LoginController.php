@@ -9,13 +9,9 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    //
+    //login
     public function login(Request $request){
 
-        
-        
-        
-       
         if($request->isMethod('post')){
           
             $email = $request->input('email');
@@ -23,6 +19,7 @@ class LoginController extends Controller
             $data = DB::select('select * from users where email=?', [$email]);
             $error = '';
             
+            //compare passwords
             if (Hash::check($password, $data[0]->password)) {
                 session()->put('email', $email);
                 session()->put('name', $data[0]->name);
@@ -33,16 +30,9 @@ class LoginController extends Controller
                 return view('login', ['error'=>$error]);
             }
            
-        
-               
-          
-              
-                
-            
+         
 
         }else{
-          
-           
           
             $error = '';
             return view('login', ['error'=>$error]);

@@ -7,35 +7,31 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    //
+    //home screen
     public function index(Request $request){
 
-        
-        
-        
-       
+        //post task
         if($request->isMethod('post')){
             $task_name = $request->input('task_name');
        
-        $date = date("Y-m-d");
-        $email  = session()->get('email');
+            $date = date("Y-m-d");
+            $email  = session()->get('email');
         
                
-                DB::table('tasks')->insert([
+            DB::table('tasks')->insert([
                     'task_name' => $task_name,
                     'email'=>$email,
                     'date'=>$date,
                     'status'=>'active'
                     
     
-                ]);
+            ]);
                 
-          
-              
-                return redirect("/");
+            return redirect("/");
             
 
         }else{
+            //Load tasks
             $user_name = session()->get('email');
             if($user_name !=""){
                 $all_tasks = DB::select("select * from tasks where email = ?", [$user_name]);
@@ -58,6 +54,7 @@ class HomeController extends Controller
         
     }
 
+    //update tasks
     public function update_status(Request $request){
         $id = $request->input('id');
         $status = $request->input('status');
@@ -72,6 +69,7 @@ class HomeController extends Controller
         return redirect("/");
     }
 
+    //logout - Clear session variables
     public function logout(){
         session()->forget('email');
         session()->forget('name');
