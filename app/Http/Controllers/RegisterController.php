@@ -15,8 +15,7 @@ class RegisterController extends Controller
             $email = $request->input('email');
             $password = bcrypt($request->input('password'));
             $image = $request->file('image');
-            $imageName = $image->getClientOriginalName();
-
+           
             //store image to public/images
             $imagePath = $image->store('public/images');
             //create a an image link that is accessible on the browser
